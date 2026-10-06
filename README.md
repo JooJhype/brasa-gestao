@@ -66,35 +66,3 @@ Também pode enviar PNG/JPG/WebP/GIF de até **4 MB** ou informar uma URL HTTPS.
 **Exemplo municipal do RJ:** valide endereço, atividade/CNAE, uso do imóvel e regras sanitárias antes de operar. A pesquisa usa São João de Meriti como exemplo público: o município prevê ALFAE; MEI pode ter dispensa do procedimento de alvará, mas deve cumprir as normas. Confirme as exigências da sua própria localidade; este exemplo não configura a cidade da instalação. [Código de Posturas de Meriti](https://transparencia.meriti.rj.gov.br/diario_oficial_get_anexo.php?codigo=10733&ocr=s), [Dispensa MEI e obrigações preservadas](https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/itens-inativo/copy_of_servicos-para-mei/dispensa-de-alvara-e-licenca/o-que-voce-precisa-saber-sobre-a-dispensa-de-alvara), [CBMERJ](https://www.cbmerj.rj.gov.br/para-o-cidadao/regularizacao/).
 
 **Vigilância Sanitária:** organize Manual de Boas Práticas/POP, higiene, validade e identificação após fracionamento/abertura, armazenamento e controles de temperatura. Não defina validade universal. [RDC 216/2004 — Anvisa](https://anvisalegis.datalegis.net/action/ActionDatalegis.php?acao=abrirTextoAto&cod_menu=8542&cod_modulo=310&link=S&numeroAto=00000216&orgao=RDC%2FDC%2FANVISA%2FMS&seqAto=000&tipo=RDC&valorAno=2004).
-
-## Publicar ou compartilhar o código
-
-- Publique apenas código, testes, documentação e assets. A pasta `data/` contém banco, uploads, backups e logs locais e deve permanecer privada.
-- O `.gitignore` exclui dados locais, exportações padrão do Brasa, credenciais e certificados privados. Ele atua ao usar Git; ao enviar arquivos manualmente ou criar um ZIP, exclua esses arquivos da seleção.
-- Não inclua backups JSON, exportações financeiras CSV, capturas com dados reais ou arquivos de configuração com credenciais.
-- Uma cópia distribuída sem `data/` cria um banco independente no primeiro início. Os cadastros demonstrativos do código são fictícios.
-- Antes de criar um commit, confira os arquivos preparados com `git diff --cached --name-only`. Preserve as licenças das fontes em `public/assets/fonts`.
-- O guia usa exemplos públicos do RJ, sem definir a cidade do estabelecimento. Configure a localidade no programa após a instalação.
-
-## Sugestões de evolução
-
-- Integração com emissor fiscal autorizado e conciliação dos extratos.
-- Importação oficial de pedidos do iFood/99, quando houver acesso à integração contratada.
-- Saldo por lote e alertas de validade original e após abertura. Nesta versão, validade fica no histórico da compra e o saldo é por ingrediente.
-- Checklist sanitário, temperaturas, responsável e vencimento de documentos.
-- Receita bruta anual e alertas do limite MEI, conforme enquadramento e mês de abertura.
-- Contas a pagar/receber e permissões por usuário, se houver equipe.
-
-## Para você que conhece JavaScript
-
-A interface usa fontes locais IBM Plex Sans e Barlow Condensed, com licenças OFL na pasta `public/assets/fonts`. A logo transparente fica em `public/assets/brand/brasa-logo.png`. Títulos e controles usam famílias distintas; o resultado mensal recebe prioridade visual. O layout adapta a navegação para telas menores.
-
-- `public/app.js`: interface e formulários, sem framework.
-- `public/styles.css`: aparência e adaptação para telas pequenas.
-- `src/domain.mjs`: conversões, cálculo de preço e relatório.
-- `src/store.mjs`: banco SQLite e regras transacionais.
-- `src/server.mjs`: servidor HTTP local, busca Commons, uploads e backup.
-- `public/guide.json`: conteúdo da pesquisa e links.
-- `tests/`: testes dos cálculos, integridade e API.
-
-Execute `npm test` para validar. O banco é `data\brasa.sqlite`. Não exponha este servidor à internet. Para usar outra porta ou pasta em testes, defina `BRASA_PORT` e `BRASA_DATA_DIR` antes de `npm start`; o atalho normal usa 4310 e a pasta data do programa.

@@ -1,0 +1,97 @@
+{
+  "consultedAt": "2026-10-06",
+  "scope": "Orientações gerais com exemplos públicos do RJ; confirme as regras da localidade do estabelecimento.",
+  "cards": [
+    {
+      "tag": "CANAIS DE VENDA",
+      "title": "Taxas e entrega das plataformas",
+      "items": [
+        "iFood Entrega: a referência pública é 23% de comissão, 3,2% para pagamento via iFood e R$150/mês quando o faturamento no mês supera R$1.800. A modalidade oferece entregadores parceiros e depende da cobertura regional. Confira as condições do seu contrato.",
+        "99Food: comissão, pagamento, mensalidade, logística e participação em frete promocional variam conforme contrato e campanha. A configuração começa pendente. Não conte com isenção sem verificar sua contratação.",
+        "Registre somente descontos e subsídios de frete pagos pela loja. O total real de taxas no pedido pode substituir a estimativa percentual. Confira o repasse com o extrato da plataforma.",
+        "Lance as mensalidades cobradas em Despesas. A mensalidade prevista na precificação é apenas um rateio; não baixa automaticamente o resultado mensal."
+      ],
+      "sources": [
+        {"label":"iFood · Planos oficiais", "url":"https://parceiros.ifood.com.br/restaurante/planos-ifood"},
+        {"label":"99Food · Cobranças e custos", "url":"https://99app.com/99food/restaurantes/guias/entendendo-as-cobrancas-da-99food/"},
+        {"label":"99Food · Relatório e descontos", "url":"https://99app.com/99food/restaurantes/guias/como-compreender-o-relatorio-da-99food/"}
+      ]
+    },
+    {
+      "tag": "DOCUMENTOS FISCAIS",
+      "title": "A nota da plataforma não é a nota do alimento",
+      "items": [
+        "iFood e 99 emitem documentos de seus próprios serviços. Isso não substitui o documento fiscal da venda da hamburgueria.",
+        "No MEI, vendas a pessoa física em regra dispensam emissão, salvo solicitação. Para pessoa jurídica, em regra é necessária, considerando as exceções legais. Confirme o enquadramento e o documento adequado com seu contador e a SEFAZ-RJ.",
+        "Alimentos e produtos exigem atenção às regras estaduais. A NFS-e municipal de serviços não é um substituto automático para NF-e/NFC-e de mercadorias. O RJ oferece alternativas como NFA-e e Nota Fiscal Fácil para MEI.",
+        "O manual de NFC-e do RJ tem exigências específicas para delivery, incluindo identificação/endereço do destinatário e dados de transporte. Verifique o fluxo fiscal antes de operar.",
+        "Aqui você registra a situação fiscal e o número ou chave de um documento já emitido. O programa não emite nota fiscal autorizada. Integração com emissor fiscal é uma evolução recomendada."
+      ],
+      "sources": [
+        {"label":"iFood · Documentos dos serviços", "url":"https://blog-parceiros.ifood.com.br/nota-fiscal-ifood/comment-page-4/"},
+        {"label":"99Food · Nota de serviços da 99", "url":"https://99app.com/99food/restaurantes/guias/reforma-tributaria-2026/"},
+        {"label":"Portal do Empreendedor · Perguntas fiscais", "url":"https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/vitrine/perguntas-frequentes"},
+        {"label":"SEFAZ-RJ · Manual Nota Fiscal Fácil MEI", "url":"https://portal.fazenda.rj.gov.br/dfe/wp-content/uploads/sites/17/2024/01/DF-e_NFF-MEI-e_12_01_2024.pdf"},
+        {"label":"SEFAZ-RJ · Manual NFC-e", "url":"https://portal.fazenda.rj.gov.br/dfe/wp-content/uploads/sites/17/2023/01/DF-e_NFC-e.pdf"}
+      ]
+    },
+    {
+      "tag": "FORMALIZAÇÃO",
+      "title": "Escolha o enquadramento antes de abrir",
+      "items": [
+        "Proprietário de lanchonete independente, CNAE 5611-2/03, consta nas ocupações permitidas ao MEI. Confira se corresponde à atividade e às condições reais da sua hamburgueria.",
+        "O limite vigente do MEI é R$81.000 de receita bruta anual, proporcional a R$6.750 por mês de atividade no ano de abertura. Propostas de aumento não são o limite vigente.",
+        "Acompanhe receita bruta, não somente o repasse líquido das plataformas. As taxas da plataforma não reduzem automaticamente o faturamento considerado para enquadramento.",
+        "Para MEI, o DAS é normalmente despesa mensal. Não configure uma alíquota percentual fictícia por venda. Peça ao contador as regras tributárias adequadas ao seu regime.",
+        "Sugestões para uma próxima versão: alerta de limite anual, cadastro de documentos e lembrete de vencimentos."
+      ],
+      "sources": [
+        {"label":"Portal do Empreendedor · Ocupações permitidas", "url":"https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/quero-ser-mei/atividades-permitidas/p"},
+        {"label":"Ministério do Empreendedorismo · Limite do MEI", "url":"https://www.gov.br/memp/pt-br/teto-do-mei"}
+      ]
+    },
+    {
+      "tag": "EXEMPLO MUNICIPAL · RJ",
+      "title": "Endereço, funcionamento e segurança",
+      "items": [
+        "Valide o endereço e o CNAE na Prefeitura e no REGIN antes de alugar ou montar a cozinha. Confira uso do solo, atividade no imóvel, exigências sanitárias e situação cadastral.",
+        "O Código de Posturas publicado em 23/03/2026 prevê ALFAE para localização e funcionamento. A aplicação e eventual dispensa dependem do enquadramento concreto.",
+        "MEI tem dispensa do procedimento de alvará/licenças nas condições legais. Isso não dispensa cumprir normas sanitárias, ambientais, tributárias, de segurança e uso do solo.",
+        "Verifique com o CBMERJ o risco e a regularização do imóvel, incluindo instalação de gás, extintores e demais exigências aplicáveis. Não presuma que uma cozinha é apenas um endereço residencial de referência.",
+        "Guarde CNPJ/CCMEI, respostas de viabilidade, comprovantes e documentos de regularização, conforme a exigência de cada órgão."
+      ],
+      "sources": [
+        {"label":"Prefeitura de Meriti · Código de Posturas, DOM 6764", "url":"https://transparencia.meriti.rj.gov.br/diario_oficial_get_anexo.php?codigo=10733&ocr=s"},
+        {"label":"Portal do Empreendedor · Dispensa e obrigações", "url":"https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/itens-inativo/copy_of_servicos-para-mei/dispensa-de-alvara-e-licenca/o-que-voce-precisa-saber-sobre-a-dispensa-de-alvara"},
+        {"label":"JUCERJA · REGIN e viabilidade", "url":"https://www.jucerja.rj.gov.br/Transparencia/PerguntasFrequentes"},
+        {"label":"CBMERJ · Regularização", "url":"https://www.cbmerj.rj.gov.br/para-o-cidadao/regularizacao/"}
+      ]
+    },
+    {
+      "tag": "VIGILÂNCIA SANITÁRIA",
+      "title": "Validades, higiene e rastreabilidade",
+      "items": [
+        "A RDC 216/2004 estabelece boas práticas para serviços de alimentação: Manual de Boas Práticas, procedimentos operacionais, higiene dos manipuladores e controle do preparo e armazenamento.",
+        "Controle validade original e, após abertura ou fracionamento, identifique produto, data e validade aplicável. Não existe uma validade única que sirva para todo ingrediente.",
+        "Identifique alimentos preparados com datas e validade. Faça controles de temperatura adequados ao processo e preserve os registros pelo prazo exigido, incluindo pelo menos 30 dias após o preparo quando aplicável.",
+        "Esta versão guarda fornecedor, validade informada na compra e motivo de perdas. O saldo é por ingrediente, sem rastreamento de saldo por lote. Confira lotes físicos e retire primeiro os que vencem antes.",
+        "Sugestões de evolução: saldo por lote, alertas de validade após abertura, checklist de higienização e registro de temperatura com responsável."
+      ],
+      "sources": [
+        {"label":"Anvisa · RDC 216/2004", "url":"https://anvisalegis.datalegis.net/action/ActionDatalegis.php?acao=abrirTextoAto&cod_menu=8542&cod_modulo=310&link=S&numeroAto=00000216&orgao=RDC%2FDC%2FANVISA%2FMS&seqAto=000&tipo=RDC&valorAno=2004"}
+      ]
+    },
+    {
+      "tag": "ROTINA FINANCEIRA",
+      "title": "Faça o resultado refletir sua operação",
+      "items": [
+        "Cadastre embalagens na ficha técnica, além dos alimentos. Informe quantidades efetivamente utilizadas e registre desperdícios.",
+        "Compare estoque físico com o saldo do programa. Ajustes precisam ter motivo; perdas são descontadas no resultado.",
+        "Lance aluguel, energia, água, limpeza, gás, salários ou pró-labore, DAS e mensalidades. Evite lançar o mesmo custo como despesa e como custo extra do produto.",
+        "As vendas usam o custo médio no momento do registro. Compras retroativas não recalculam vendas antigas: faça os lançamentos em ordem sempre que possível.",
+        "Sugestões de evolução: conciliação com extratos, importação oficial de pedidos, contas a pagar e receber, integração fiscal e acesso por usuário. A operação nesta versão é manual."
+      ],
+      "sources": []
+    }
+  ]
+}

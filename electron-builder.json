@@ -1,0 +1,51 @@
+{
+  "appId": "com.brasa.gestao",
+  "productName": "Brasa",
+  "artifactName": "Brasa-Instalador-${version}-${arch}.${ext}",
+  "asar": true,
+  "directories": {
+    "output": "dist"
+  },
+  "files": [
+    "desktop/**/*.mjs",
+    "desktop/assets/brasa-icon.png",
+    "desktop/assets/brasa-icon.ico",
+    "src/**/*.mjs",
+    "public/**/*",
+    "package.json",
+    "README.md",
+    "!**/.env*",
+    "!**/*.sqlite*",
+    "!**/*.db*",
+    "!data/**/*",
+    "!work/**/*",
+    "!tests/**/*"
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [
+          "x64"
+        ]
+      }
+    ],
+    "icon": "desktop/assets/brasa-icon.ico",
+    "executableName": "Brasa",
+    "signAndEditExecutable": true
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "Brasa",
+    "deleteAppDataOnUninstall": false,
+    "runAfterFinish": false,
+    "installerLanguages": [
+      "pt_BR"
+    ],
+    "language": "1046"
+  }
+}

@@ -1,68 +1,54 @@
-# Brasa — gestão da hamburgueria
+# Brasa
 
-Programa local em **JavaScript**, com interface em português e banco **SQLite**, para controlar estoque, fichas técnicas, custos e resultado de uma hamburgueria. Requer Node.js 24 ou superior. Não precisa instalar dependências npm: usa os recursos nativos do Node.js.
+O Brasa foi feito para ajudar no controle de uma hamburgueria. A ideia é reunir estoque, receitas, custos e vendas no mesmo lugar, para acompanhar o que está disponível e quanto sobra depois dos gastos.
 
-## Abrir e fechar
+## Como abrir
 
-1. Abra a pasta em que você extraiu ou clonou o programa.
-2. Dê dois cliques em **Iniciar Brasa.cmd**.
-3. O navegador abrirá `http://127.0.0.1:4310`.
-4. Para encerrar o servidor, dê dois cliques em **Parar Brasa.cmd**. Fechar apenas o navegador mantém o servidor funcionando.
+O jeito mais simples no Windows é usar o **instalador**, sem terminal ou Node.js. Na versão distribuída, ele fica em `Instalador/Brasa-Instalador-1.2.0-dev.2-x64.exe`.
 
-Também pode iniciar pelo terminal, na pasta do programa: `npm start`. Nesse caso, encerre com Ctrl+C. O servidor aceita somente conexões do próprio computador. A operação não exige internet; a busca e as imagens externas exigem conexão. Não há sincronização com celular, nuvem ou plataformas de delivery.
+No GitHub, procure o instalador em **Releases**, quando estiver disponível. O ZIP de código contém apenas os fontes, sem o executável.
 
-## Primeiros passos
+Abra o `.exe`, siga as etapas da instalação e depois abra **Brasa** pelo atalho da área de trabalho ou pelo menu Iniciar. Ao fechar a janela pelo **X**, o programa encerra automaticamente.
 
-1. Em **Configurações**, informe nome, margem desejada, despesas previstas e previsão de pedidos. Confira as taxas e marque a confirmação de cada contrato.
-2. Em **Ingredientes e estoque**, cadastre a quantidade comprada e o valor total pago. Cadastre também caixas, papel, sacolas e outras embalagens usando a unidade `un`.
-3. Monte as **Fichas técnicas**: quanto de cada ingrediente e embalagem vai em uma unidade do produto.
-4. Use **Precificação** para consultar o preço sugerido por canal.
-5. Registre **Vendas**, incluindo produtos, quantidades, preço unitário, desconto pago pela loja e canal. A baixa do estoque é automática e vendas sem estoque são bloqueadas.
-6. Lance **Despesas** e **Perdas / ajustes** para que o resultado represente sua operação.
-7. Leia o **Guia de abertura**: ele contém a pesquisa fiscal, sanitária e de plataformas com links oficiais.
+O instalador também serve para atualizar o aplicativo, mantendo os dados locais.
 
-O botão **Explorar com exemplos** carrega ingredientes e receitas fictícios somente em base vazia. Esses preços servem para testar. Se quiser experimentar sem misturar com os dados reais, faça antes um backup da base vazia; restaure-o depois. Uma nova instalação começa com os cadastros e movimentações vazios.
+## Como funciona
 
-## Como os cálculos funcionam
+Em **Ingredientes e estoque**, entram as compras, com quantidade e valor total pago. Também dá para cadastrar embalagens. As medidas podem ser kg, g, l, ml ou unidade; o programa converte medidas compatíveis e calcula o custo médio das compras.
 
-**Unidades:** kg ↔ g e l ↔ ml são convertidos automaticamente. Peso, volume e unidades são dimensões distintas: o programa impede misturar gramas com litros na mesma ficha.
+As **Fichas técnicas** mostram quanto de cada ingrediente e embalagem vai em um produto. Ao registrar uma **Venda**, o estoque é baixado automaticamente e os custos ficam guardados no histórico. No cancelamento, dá para informar se houve devolução ao estoque.
 
-**Exemplo:** 2 kg de queijo por R$80 dão R$40/kg e R$0,04/g. Uma porção de 50 g custa R$2. Vender duas unidades consome 100 g e registra R$4 de custo do queijo.
+A **Precificação** usa os custos, a margem desejada e as taxas de cada plataforma para sugerir um preço. As taxas precisam ser conferidas no contrato. **Despesas e perdas** completam o cálculo do resultado mensal, então os lançamentos precisam estar em dia.
 
-**Custo médio:** cada nova compra pondera o custo pelo saldo que ainda existe. Os custos de vendas já registradas ficam preservados; mudanças posteriores nas compras, fichas ou taxas não reescrevem o passado. Registre compras e vendas em ordem sempre que possível: lançar uma compra retroativa não recalcula vendas antigas.
+Na escolha das **Imagens**, a busca usa termos em inglês sem mudar o nome cadastrado em português. O termo da foto pode ser ajustado, e também dá para escolher outra sugestão, enviar uma imagem ou usar um link. A busca precisa de internet.
 
-**Preço sugerido:** `(ingredientes + outros custos do produto + taxa fixa por pedido + rateio mensal) / (1 − comissão − pagamento − imposto − margem desejada)`. As porcentagens entram como frações. A margem é percentual do preço de venda, não um acréscimo sobre o custo. A soma das taxas, imposto e margem precisa ser menor que 100%.
+O **Guia de abertura** reúne orientações e referências para preparar a operação. O Brasa faz o controle gerencial, mas não emite nota fiscal.
 
-O rateio considera um produto por pedido e usa despesas mensais previstas mais a mensalidade prevista daquele canal, divididas pela previsão total de pedidos. Se usar vários canais, esse rateio é uma aproximação conservadora, não uma alocação exata por canal. No registro de uma venda com vários itens, a taxa fixa é cobrada uma única vez por pedido. Descontos, bases diferentes de comissão e cobranças variáveis devem ser conferidos no extrato; informe a **taxa total real** quando a estimativa não corresponder. Esse campo substitui todas as taxas da plataforma do pedido, inclusive logística adicional.
+## Corrigir e testar
 
-**Resultado mensal gerencial:** vendas após desconto, menos ingredientes e embalagens vendidos, outros custos de produção, taxas de plataformas, tributo percentual configurado, despesas efetivamente lançadas e perdas. Previsões mensais e mensalidades dos canais não são despesas automáticas; lance os valores cobrados em Despesas. O resultado depende da completude dos seus lançamentos. O programa não faz apuração tributária oficial, fluxo de caixa ou depreciação automática.
+Os botões **Excluir** e **Excluir ficha** pedem **deletar** para confirmar. Ingredientes ligados a receitas ou históricos de uso ficam protegidos. Uma ficha sem vendas pode ser excluída sem alterar o estoque; produtos presentes em vendas, inclusive canceladas, ficam protegidos pelo histórico.
 
-Compras de ingredientes aumentam o estoque; não são deduzidas integralmente como despesa no ato da compra. O custo entra no resultado quando o ingrediente é vendido ou perdido. Evite duplicar gás/embalagens ou outro custo na ficha e em Despesas. Se for MEI, confirme com contador o tratamento do DAS como despesa mensal e não use uma alíquota percentual fictícia por pedido.
+Por enquanto, existe um reset em **Configurações → Restaurar padrão vazio**. Digitar **resetar** confirma a limpeza dos cadastros e lançamentos, voltando aos padrões iniciais. Esse botão é temporário. Antes de excluir ou resetar, o programa guarda um backup.
 
-Cancelamento com devolução recupera quantidade e custo histórico no estoque. Sem devolução física, mantém a baixa e registra ingredientes e custos de preparo como perda. O resultado é por mês de data informada; uma venda cancelada deixa de compor seu mês original, e a perda entra na data do cancelamento. Taxas não reembolsadas devem ser lançadas como despesas.
+Para conhecer as telas sem preencher tudo do zero, **Explorar com exemplos** carrega dados fictícios quando a base está vazia.
 
-## Imagens
+## Backup e outros computadores
 
-Ao digitar um novo ingrediente, o programa consulta o **Wikimedia Commons**, apresenta sugestões e seleciona uma imagem automática quando encontra. Confira se a imagem representa seu ingrediente. Autoria, licença e origem ficam guardadas. A busca por nome em português pode trazer resultados aproximados; use **Buscar imagem** ou um nome mais específico.
+**Fazer backup** exporta os dados; **Restaurar backup** substitui a base atual pelo arquivo escolhido. Na versão com janela, cada computador e usuário tem sua própria base local, sem sincronização pela nuvem.
 
-Também pode enviar PNG/JPG/WebP/GIF de até **4 MB** ou informar uma URL HTTPS. Imagens enviadas ficam no computador; o backup JSON inclui essas imagens para permitir restauração em outro diretório. Imagens externas continuam dependendo do site de origem. Confira os direitos de uso dos arquivos que você enviar ou vincular.
+O modo navegador e a janela usam bancos separados. Para levar registros de um para o outro, o caminho é exportar o backup na origem e restaurar no destino.
 
-## Backup
+## Rodar pelo código
 
-- **Fazer backup** baixa um JSON com os cadastros, históricos e imagens enviadas.
-- **Restaurar backup**, em Configurações, valida os dados antes de substituir a base. Uma cópia da base anterior é guardada automaticamente antes da tentativa.
-- Há um backup automático antes do primeiro lançamento de cada dia, em `data\backups`. Ele representa o estado anterior aos lançamentos do dia, não o fechamento atualizado.
-- Guarde regularmente uma cópia em outro dispositivo. O botão de exportação captura os dados atuais.
-- O limite para restauração pelo navegador é 64 MB. Para bases maiores, ou para uma cópia completa do programa, encerre o servidor e copie a pasta inteira, incluindo `data` (SQLite, uploads e backups).
+Para rodar os fontes no Windows, precisa ter **Node.js 24 ou superior**. Extraia o ZIP mantendo as pastas juntas e abra um terminal na pasta do `package.json`:
 
-## Plataformas e obrigações — pesquisa em 06/10/2026
+```sh
+npm ci
+npm start
+```
 
-**iFood Entrega:** referência pública 23% de comissão, 3,2% para pagamento via iFood e R$150/mês quando faturamento mensal supera R$1.800. Disponibilidade, promoções e condições precisam ser confirmadas no contrato. O cadastro inicia sem confirmação. Ajuste a mensalidade prevista para zero quando ela não for cobrada. [Planos oficiais](https://parceiros.ifood.com.br/restaurante/planos-ifood).
+O primeiro comando instala as dependências. Depois, é só `npm start` para abrir a janela.
 
-**99Food:** não foi aplicada uma taxa universal. Os campos começam zerados e pendentes; isso **não indica isenção**. Verifique comissão, pagamento, logística, mensalidade e subsídios de frete em seu contrato. [Cobranças oficiais](https://99app.com/99food/restaurantes/guias/entendendo-as-cobrancas-da-99food/).
+Também dá para usar no navegador com `npm run start:web`, em `http://127.0.0.1:4310`. **Ctrl+C** no terminal encerra esse modo. Se abriu pelo **Iniciar Brasa.cmd**, use **Parar Brasa.cmd**.
 
-**Documento fiscal:** notas dos serviços do iFood e da 99 não substituem a nota do alimento. Este programa registra situação fiscal e referência, mas **não emite NF-e/NFC-e autorizada**. Para alimentação no RJ, confirme documento, dispensa aplicável e emissor com contador/SEFAZ-RJ. [Manual Nota Fiscal Fácil MEI](https://portal.fazenda.rj.gov.br/dfe/wp-content/uploads/sites/17/2024/01/DF-e_NFF-MEI-e_12_01_2024.pdf), [Manual NFC-e RJ](https://portal.fazenda.rj.gov.br/dfe/wp-content/uploads/sites/17/2023/01/DF-e_NFC-e.pdf).
-
-**Exemplo municipal do RJ:** valide endereço, atividade/CNAE, uso do imóvel e regras sanitárias antes de operar. A pesquisa usa São João de Meriti como exemplo público: o município prevê ALFAE; MEI pode ter dispensa do procedimento de alvará, mas deve cumprir as normas. Confirme as exigências da sua própria localidade; este exemplo não configura a cidade da instalação. [Código de Posturas de Meriti](https://transparencia.meriti.rj.gov.br/diario_oficial_get_anexo.php?codigo=10733&ocr=s), [Dispensa MEI e obrigações preservadas](https://www.gov.br/empresas-e-negocios/pt-br/empreendedor/itens-inativo/copy_of_servicos-para-mei/dispensa-de-alvara-e-licenca/o-que-voce-precisa-saber-sobre-a-dispensa-de-alvara), [CBMERJ](https://www.cbmerj.rj.gov.br/para-o-cidadao/regularizacao/).
-
-**Vigilância Sanitária:** organize Manual de Boas Práticas/POP, higiene, validade e identificação após fracionamento/abertura, armazenamento e controles de temperatura. Não defina validade universal. [RDC 216/2004 — Anvisa](https://anvisalegis.datalegis.net/action/ActionDatalegis.php?acao=abrirTextoAto&cod_menu=8542&cod_modulo=310&link=S&numeroAto=00000216&orgao=RDC%2FDC%2FANVISA%2FMS&seqAto=000&tipo=RDC&valorAno=2004).
+Para gerar outro instalador, `npm run build` deixa o arquivo pronto em `Instalador`, automaticamente, e limpa os resultados temporários depois do sucesso. Esse arquivo pode ser aberto ou compartilhado sem terminal.

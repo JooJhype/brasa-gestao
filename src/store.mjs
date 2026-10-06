@@ -16,6 +16,13 @@ function object(value, label) {
   return value;
 }
 
+function confirmAction(body, word) {
+  object(body, 'Confirmação');
+  if (typeof body.confirmation !== 'string' || body.confirmation.trim().toLocaleLowerCase('pt-BR') !== word) {
+    throw new DomainError(`Digite “${word}” para confirmar esta ação.`, 'CONFIRMATION_REQUIRED');
+  }
+}
+
 function text(value, label, max = 200, required = false) {
   if (value === undefined || value === null) value = '';
   if (typeof value !== 'string' || value.length > max || (required && !value.trim())) throw new DomainError(`${label}: informe um texto ${required ? 'não vazio, ' : ''}com até ${max} caracteres.`);
@@ -421,6 +428,47 @@ export class Store {
     });
   }
 
+  deleteIngredient(ingredientId, body, beforeMutation = () => {}) {
+    confirmAction(body, 'deletar');
+    return this._mutate(state => {
+      const ingredient = find(state.ingredients, ingredientId, 'Ingrediente');
+      const recipes = state.products.filter(product => product.recipe.some(row => row.ingredientId === ingredientId));
+      if (recipes.length) {
+        const names = recipes.slice(0, 6).map(product => `“${product.name}”`).join(', ');
+        const more = recipes.length > 6 ? ` e mais ${recipes.length - 6} produto(s)` : '';
+        throw new DomainError(`Este ingrediente é usado nas fichas técnicas de ${names}${more}. Retire-o dessas fichas antes de excluir.`, 'INGREDIENT_IN_USE', 409);
+      }
+      const historicalSale = state.sales.some(sale =>
+        sale.consumed.some(row => row.ingredientId === ingredientId) ||
+        sale.lines.some(line => line.recipe.some(row => row.ingredientId === ingredientId)));
+      if (historicalSale) {
+        throw new DomainError('Este ingrediente já foi usado em vendas, inclusive canceladas. A exclusão não é permitida porque apagaria referências do histórico de custos e estoque.', 'INGREDIENT_HAS_HISTORY', 409);
+      }
+      const movements = state.movements.filter(movement => movement.ingredientId === ingredientId);
+      if (movements.some(movement => movement.kind !== 'purchase')) {
+        throw new DomainError('Este ingrediente possui histórico de perdas ou ajustes de estoque. A exclusão não é permitida para preservar os resultados financeiros e o histórico.', 'INGREDIENT_HAS_HISTORY', 409);
+      }
+      const removedPurchases = state.purchases.filter(purchase => purchase.ingredientId === ingredientId).length;
+      // O servidor grava o backup completo aqui, ainda com os dados antigos.
+      // Se o backup falhar, a transação é revertida e nada é excluído.
+      beforeMutation();
+      state.ingredients = state.ingredients.filter(item => item.id !== ingredientId);
+      state.purchases = state.purchases.filter(purchase => purchase.ingredientId !== ingredientId);
+      state.movements = state.movements.filter(movement => movement.ingredientId !== ingredientId);
+      return { ...ingredient, removedPurchases, removedMovements: movements.length };
+    });
+  }
+
+  resetDevelopment(body, beforeMutation = () => {}) {
+    confirmAction(body, 'resetar');
+    return this._mutate(state => {
+      beforeMutation();
+      for (const key of Object.keys(state)) delete state[key];
+      Object.assign(state, defaults());
+      return state;
+    });
+  }
+
   addPurchase(body) {
     return this._mutate(state => {
       object(body, 'Compra');
@@ -434,6 +482,20 @@ export class Store {
       const product = normalizeProduct(state, body, old);
       if (old) state.products[state.products.indexOf(old)] = product;
       else state.products.push(product);
+      return product;
+    });
+  }
+
+  deleteProduct(productId, body, beforeMutation = () => {}) {
+    confirmAction(body, 'deletar');
+    return this._mutate(state => {
+      const product = find(state.products, productId, 'Ficha técnica');
+      if (state.sales.some(sale => sale.lines.some(line => line.productId === productId))) {
+        throw new DomainError('Esta ficha técnica já foi usada em vendas, inclusive canceladas. A exclusão não é permitida para preservar o histórico de produtos e custos.', 'PRODUCT_HAS_HISTORY', 409);
+      }
+      // Salva a base antiga antes de excluir; falha do backup reverte a transação.
+      beforeMutation();
+      state.products = state.products.filter(item => item.id !== productId);
       return product;
     });
   }

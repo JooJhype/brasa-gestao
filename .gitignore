@@ -1,0 +1,36 @@
+# Dados locais da hamburgueria: nunca publicar.
+data/
+backups/
+uploads/
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+brasa-backup-*.json
+brasa-financeiro-*.csv
+automatico-*.json
+antes-restauracao-*.json
+antes-exclusao-*.json
+antes-reset-*.json
+
+# Credenciais e certificados privados.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+connections.json
+connections.json.tmp
+
+# Dependências e arquivos temporários.
+node_modules/
+dist/
+release/
+Instalador/*.exe
+Instalador/*.blockmap
+*.log
+*.pid
+Thumbs.db
+.DS_Store

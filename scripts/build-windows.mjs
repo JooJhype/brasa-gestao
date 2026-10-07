@@ -1,8 +1,16 @@
 import { spawn } from 'node:child_process';
 import { createHash, randomUUID } from 'node:crypto';
 import {
-  constants, copyFileSync, createReadStream, lstatSync, mkdirSync,
-  readFileSync, readdirSync, realpathSync, renameSync, rmSync,
+  constants,
+  copyFileSync,
+  createReadStream,
+  lstatSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  realpathSync,
+  renameSync,
+  rmSync,
 } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
@@ -17,19 +25,30 @@ const installerPattern = /^Brasa-Instalador-[A-Za-z0-9.+-]+-x64\.exe(?:\.blockma
 
 function checkedDirectory(directory, name) {
   // Never recursively remove a computed path until its exact location is checked.
-  if (!path.isAbsolute(directory) || directory !== path.join(projectRoot, name)
-      || path.dirname(directory) !== projectRoot || path.relative(projectRoot, directory) !== name) {
+  if (
+    !path.isAbsolute(directory) ||
+    directory !== path.join(projectRoot, name) ||
+    path.dirname(directory) !== projectRoot ||
+    path.relative(projectRoot, directory) !== name
+  ) {
     throw new Error(`Pasta fora do projeto: ${directory}`);
   }
   const info = lstatSync(directory, { throwIfNoEntry: false });
-  if (info && (info.isSymbolicLink() || !info.isDirectory()
-      || realpathSync(directory) !== path.join(realProjectRoot, name))) {
-    throw new Error(`A pasta ${name} precisa ser um diretório normal dentro do projeto, sem links ou junções.`);
+  if (
+    info &&
+    (info.isSymbolicLink() ||
+      !info.isDirectory() ||
+      realpathSync(directory) !== path.join(realProjectRoot, name))
+  ) {
+    throw new Error(
+      `A pasta ${name} precisa ser um diretório normal dentro do projeto, sem links ou junções.`,
+    );
   }
 }
 
 function checkedFile(filename, directory) {
-  if (path.dirname(filename) !== directory) throw new Error(`Arquivo fora da pasta esperada: ${filename}`);
+  if (path.dirname(filename) !== directory)
+    throw new Error(`Arquivo fora da pasta esperada: ${filename}`);
   const info = lstatSync(filename, { throwIfNoEntry: false });
   if (info && (info.isSymbolicLink() || !info.isFile())) {
     throw new Error(`O arquivo precisa ser regular, sem links: ${filename}`);
@@ -53,7 +72,10 @@ async function build() {
   checkedDirectory(distDir, 'dist');
   checkedDirectory(installerDir, 'Instalador');
   const { version } = JSON.parse(readFileSync(path.join(projectRoot, 'package.json'), 'utf8'));
-  if (typeof version !== 'string' || !/^\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?(?:\+[A-Za-z0-9.-]+)?$/.test(version)) {
+  if (
+    typeof version !== 'string' ||
+    !/^\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?(?:\+[A-Za-z0-9.-]+)?$/.test(version)
+  ) {
     throw new Error('A versão do package.json não é válida para gerar o instalador.');
   }
   const installerName = `Brasa-Instalador-${version}-x64.exe`;
@@ -61,9 +83,15 @@ async function build() {
   const destination = path.join(installerDir, installerName);
   const cli = require.resolve('electron-builder/cli.js');
   const exitCode = await new Promise((resolve, reject) => {
-    const child = spawn(process.execPath, [cli, '--config', 'electron-builder.json', '--win', '--x64', '--publish', 'never'], {
-      cwd: projectRoot, stdio: 'inherit', windowsHide: true,
-    });
+    const child = spawn(
+      process.execPath,
+      [cli, '--config', 'electron-builder.json', '--win', '--x64', '--publish', 'never'],
+      {
+        cwd: projectRoot,
+        stdio: 'inherit',
+        windowsHide: true,
+      },
+    );
     child.once('error', reject);
     child.once('close', (code, signal) => {
       if (signal) reject(new Error(`O empacotamento foi interrompido por ${signal}.`));
@@ -71,7 +99,9 @@ async function build() {
     });
   });
   if (exitCode !== 0) {
-    throw new Error(`O empacotamento falhou (código ${exitCode}). O instalador anterior e os arquivos de diagnóstico em dist foram preservados.`);
+    throw new Error(
+      `O empacotamento falhou (código ${exitCode}). O instalador anterior e os arquivos de diagnóstico em dist foram preservados.`,
+    );
   }
 
   checkedDirectory(distDir, 'dist');
@@ -80,8 +110,8 @@ async function build() {
   checkedDirectory(installerDir, 'Instalador');
   checkedFile(destination, installerDir);
   const oldInstallers = readdirSync(installerDir)
-    .filter(name => installerPattern.test(name) && name !== installerName)
-    .map(name => path.join(installerDir, name));
+    .filter((name) => installerPattern.test(name) && name !== installerName)
+    .map((name) => path.join(installerDir, name));
   for (const filename of oldInstallers) checkedFile(filename, installerDir);
 
   const temporary = path.join(installerDir, `.${installerName}.${randomUUID()}.tmp`);
@@ -91,10 +121,13 @@ async function build() {
     copyFileSync(source, temporary, constants.COPYFILE_EXCL);
     temporaryCreated = true;
     const [sourceHash, copyHash] = await Promise.all([
-      fingerprint(source, distDir), fingerprint(temporary, installerDir),
+      fingerprint(source, distDir),
+      fingerprint(temporary, installerDir),
     ]);
     if (!equalFingerprint(sourceHash, copyHash)) {
-      throw new Error('A cópia do instalador não passou na conferência de tamanho e SHA256. O instalador anterior foi preservado.');
+      throw new Error(
+        'A cópia do instalador não passou na conferência de tamanho e SHA256. O instalador anterior foi preservado.',
+      );
     }
     checkedDirectory(installerDir, 'Instalador');
     checkedFile(destination, installerDir);
@@ -102,7 +135,10 @@ async function build() {
     renameSync(temporary, destination);
     temporaryCreated = false;
     const savedHash = await fingerprint(destination, installerDir);
-    if (!equalFingerprint(sourceHash, savedHash)) throw new Error('O instalador final não passou na conferência. dist foi mantido para diagnóstico.');
+    if (!equalFingerprint(sourceHash, savedHash))
+      throw new Error(
+        'O instalador final não passou na conferência. dist foi mantido para diagnóstico.',
+      );
 
     checkedDirectory(installerDir, 'Instalador');
     for (const filename of oldInstallers) {
@@ -124,7 +160,7 @@ async function build() {
   }
 }
 
-build().catch(error => {
+build().catch((error) => {
   console.error(`\nNão foi possível concluir o empacotamento: ${error.message}`);
   process.exitCode = 1;
 });

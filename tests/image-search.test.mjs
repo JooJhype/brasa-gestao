@@ -2,9 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { normalizeImageQuery, resolveImageQuery } from '../src/image-search.mjs';
 
-const noNetwork = async () => { throw new Error('Common ingredients must not require a network request'); };
+const noNetwork = async () => {
+  throw new Error('Common ingredients must not require a network request');
+};
 const wikidataResult = (label, description, text, language = 'en') => ({
-  display: { label: { value: label, language }, description: { value: description, language: 'en' } },
+  display: {
+    label: { value: label, language },
+    description: { value: description, language: 'en' },
+  },
   match: { text, language: 'pt', type: 'label' },
 });
 
@@ -41,7 +46,9 @@ test('inglês conhecido é preservado e palavras parciais não acionam traduçã
   const result = await resolveImageQuery('mozzarella cheese', { fetchImpl: noNetwork });
   assert.equal(result.query, 'mozzarella cheese');
   assert.equal(result.translated, false);
-  const noPartial = await resolveImageQuery('salmão', { fetchImpl: async () => ({ ok: true, json: async () => ({ search: [] }) }) });
+  const noPartial = await resolveImageQuery('salmão', {
+    fetchImpl: async () => ({ ok: true, json: async () => ({ search: [] }) }),
+  });
   assert.equal(noPartial.query, 'salmão'); // must not match "sal"
 });
 
@@ -77,8 +84,16 @@ test('preparações compostas preservam o tipo de alimento e a proteína na trad
 });
 
 test('preparação desconhecida não é substituída por ingrediente parcial conhecido', async () => {
-  for (const name of ['Molho especial com alho', 'Molho caseiro de queijo muçarela', 'Hambúrguer de cogumelo com cebola', 'Carne moída bovina e suína', 'Carne de pato']) {
-    const result = await resolveImageQuery(name, { fetchImpl: async () => ({ ok: true, json: async () => ({ search: [] }) }) });
+  for (const name of [
+    'Molho especial com alho',
+    'Molho caseiro de queijo muçarela',
+    'Hambúrguer de cogumelo com cebola',
+    'Carne moída bovina e suína',
+    'Carne de pato',
+  ]) {
+    const result = await resolveImageQuery(name, {
+      fetchImpl: async () => ({ ok: true, json: async () => ({ search: [] }) }),
+    });
     assert.equal(result.source, 'original', name);
     assert.equal(result.query, name);
   }
@@ -86,13 +101,24 @@ test('preparação desconhecida não é substituída por ingrediente parcial con
 
 test('Wikidata traduz apenas correspondência alimentar com rótulo explicitamente em inglês', async () => {
   let request;
-  const result = await resolveImageQuery('Jiló', { fetchImpl: async (url, options) => {
-    request = { url: new URL(url), options };
-    return { ok: true, json: async () => ({ search: [
-      wikidataResult('Jilo', 'musical band', 'Jiló'),
-      wikidataResult('Scarlet eggplant', 'edible vegetable used in Brazilian cuisine', 'Jiló'),
-    ] }) };
-  } });
+  const result = await resolveImageQuery('Jiló', {
+    fetchImpl: async (url, options) => {
+      request = { url: new URL(url), options };
+      return {
+        ok: true,
+        json: async () => ({
+          search: [
+            wikidataResult('Jilo', 'musical band', 'Jiló'),
+            wikidataResult(
+              'Scarlet eggplant',
+              'edible vegetable used in Brazilian cuisine',
+              'Jiló',
+            ),
+          ],
+        }),
+      };
+    },
+  });
   assert.equal(request.url.searchParams.get('language'), 'pt');
   assert.equal(request.url.searchParams.get('uselang'), 'en');
   assert.equal(request.url.searchParams.get('search'), 'Jiló');
@@ -110,7 +136,9 @@ test('Wikidata rejeita fallback português, resultados parecidos e entidades sem
     wikidataResult('Solanum aethiopicum', 'species of plant', 'Jiló'),
     wikidataResult('Jilo', 'food brand company', 'Jiló'),
   ]) {
-    const result = await resolveImageQuery('Jiló', { fetchImpl: async () => ({ ok: true, json: async () => ({ search: [candidate] }) }) });
+    const result = await resolveImageQuery('Jiló', {
+      fetchImpl: async () => ({ ok: true, json: async () => ({ search: [candidate] }) }),
+    });
     assert.equal(result.source, 'original');
     assert.equal(result.query, 'Jiló');
     assert.match(result.warning, /inglês/);
@@ -119,26 +147,47 @@ test('Wikidata rejeita fallback português, resultados parecidos e entidades sem
 
 test('falhas externas, respostas inválidas e interrupção mantêm o registro local disponível', async () => {
   for (const fetchImpl of [
-    async () => { throw new Error('offline'); },
+    async () => {
+      throw new Error('offline');
+    },
     async () => ({ ok: false }),
     async () => ({ ok: true, json: async () => ({ search: { bad: true } }) }),
-    async () => ({ ok: true, json: async () => { throw new Error('invalid JSON'); } }),
+    async () => ({
+      ok: true,
+      json: async () => {
+        throw new Error('invalid JSON');
+      },
+    }),
   ]) {
     const result = await resolveImageQuery('Ingrediente especial', { fetchImpl });
     assert.equal(result.query, 'Ingrediente especial');
     assert.equal(result.translated, false);
   }
-  const result = await resolveImageQuery('Ingrediente especial', { fetchImpl: noNetwork, signal: AbortSignal.abort() });
+  const result = await resolveImageQuery('Ingrediente especial', {
+    fetchImpl: noNetwork,
+    signal: AbortSignal.abort(),
+  });
   assert.equal(result.source, 'original');
 });
 
 test('timeout de tradução é limitado e volta à busca original', async () => {
-  const result = await resolveImageQuery('Ingrediente especial', { timeoutMs: 5, fetchImpl: (_url, { signal }) => new Promise((resolve, reject) => {
-    // Keep a referenced timer only in this fake request so Node's test runner
-    // can observe AbortSignal.timeout (whose internal timer is unreferenced).
-    const pending = setTimeout(() => resolve({ ok: false }), 200);
-    signal.addEventListener('abort', () => { clearTimeout(pending); reject(signal.reason); }, { once: true });
-  }) });
+  const result = await resolveImageQuery('Ingrediente especial', {
+    timeoutMs: 5,
+    fetchImpl: (_url, { signal }) =>
+      new Promise((resolve, reject) => {
+        // Keep a referenced timer only in this fake request so Node's test runner
+        // can observe AbortSignal.timeout (whose internal timer is unreferenced).
+        const pending = setTimeout(() => resolve({ ok: false }), 200);
+        signal.addEventListener(
+          'abort',
+          () => {
+            clearTimeout(pending);
+            reject(signal.reason);
+          },
+          { once: true },
+        );
+      }),
+  });
   assert.equal(result.source, 'original');
   assert.match(result.warning, /traduzir/);
 });
@@ -146,7 +195,12 @@ test('timeout de tradução é limitado e volta à busca original', async () => 
 test('normalização elimina quantidades, limita consultas e trata entrada vazia', async () => {
   assert.equal(normalizeImageQuery('  Óleo de soja - 0,9 L  '), 'oleo de soja');
   assert.equal(normalizeImageQuery('Muçarela 500g'), 'mucarela');
-  assert.deepEqual(await resolveImageQuery('', { fetchImpl: noNetwork }), { originalQuery: '', query: '', translated: false, source: 'original' });
+  assert.deepEqual(await resolveImageQuery('', { fetchImpl: noNetwork }), {
+    originalQuery: '',
+    query: '',
+    translated: false,
+    source: 'original',
+  });
   const long = await resolveImageQuery('x'.repeat(200), { fetchImpl: async () => ({ ok: false }) });
   assert.equal(long.query.length, 90);
   assert.equal(long.originalQuery.length, 90);

@@ -1,0 +1,12 @@
+node_modules/
+dist/
+Instalador/
+data/
+backups/
+uploads/
+release/
+work/
+package-lock.json
+public/assets/
+desktop/assets/
+

@@ -1,8 +1,87 @@
 <!doctype html>
 <html lang="pt-BR">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Estoque, fichas técnicas e custos para sua hamburgueria"><meta name="theme-color" content="#f8f6f0"><title>Brasa · Gestão da hamburgueria</title><link rel="icon" href="/favicon.svg"><link rel="preload" href="/assets/fonts/IBMPlexSans-Variable.ttf" as="font" type="font/ttf" crossorigin><link rel="preload" href="/assets/fonts/BarlowCondensed-SemiBold.ttf" as="font" type="font/ttf" crossorigin><link rel="stylesheet" href="/styles.css"><script type="module" src="/app.js"></script></head>
-<body>
-  <aside class="sidebar"><a class="brand" href="#dashboard" aria-label="Brasa — Visão geral"><img class="brand-logo" src="/assets/brand/brasa-logo.png" alt="Brasa" width="208" height="76"><span class="brand-caption">GESTÃO DA HAMBURGUERIA</span></a><div class="nav-label">OPERAÇÃO</div><nav id="nav" aria-label="Menu principal"></nav><div class="sidebar-footer"><span class="local-badge">Dados neste computador</span><small id="business-location"></small><a href="#guide">Guia de abertura</a></div></aside>
-  <div class="workspace"><header class="topbar"><button class="mobile-menu icon-button" aria-label="Abrir menu" aria-expanded="false" id="menu-button">☰</button><img class="mobile-logo" src="/assets/brand/brasa-logo.png" alt="Brasa" width="109" height="40"><span id="business-name">Minha hamburgueria</span><div class="topbar-tools"><label for="month">PERÍODO</label><input type="month" id="month"><a class="button small secondary backup-link" href="/api/export" download>Fazer backup</a></div></header><main id="main" tabindex="-1"><div class="loading">Carregando sua operação…</div></main><footer class="main-footer">Brasa / Gestão da hamburgueria <span>R$ · Real brasileiro</span></footer></div>
-  <dialog id="dialog"><div id="dialog-content"></div></dialog><div id="toast" role="status" aria-live="polite"></div>
-</body></html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Estoque, fichas técnicas e custos para sua hamburgueria" />
+    <meta name="theme-color" content="#f8f6f0" />
+    <title>Brasa · Gestão da hamburgueria</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link
+      rel="preload"
+      href="/assets/fonts/IBMPlexSans-Variable.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/assets/fonts/BarlowCondensed-SemiBold.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard" aria-label="Brasa — Visão geral"
+        ><img
+          class="brand-logo"
+          src="/assets/brand/brasa-logo.png"
+          alt="Brasa"
+          width="208"
+          height="76"
+        /><span class="brand-caption">GESTÃO DA HAMBURGUERIA</span></a
+      >
+      <div class="nav-label">OPERAÇÃO</div>
+      <nav id="nav" aria-label="Menu principal"></nav>
+      <div class="sidebar-footer">
+        <span class="local-badge" id="data-mode">Dados neste computador</span
+        ><small id="business-location"></small>
+      </div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <button
+          class="mobile-menu icon-button"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+          id="menu-button"
+        >
+          ☰</button
+        ><img
+          class="mobile-logo"
+          src="/assets/brand/brasa-logo.png"
+          alt="Brasa"
+          width="109"
+          height="40"
+        /><span id="business-name">Minha hamburgueria</span>
+        <div class="topbar-tools">
+          <label for="month">PERÍODO</label><input type="month" id="month" /><a
+            class="button small secondary backup-link"
+            href="/api/export"
+            download
+            >Fazer backup</a
+          >
+        </div>
+      </header>
+      <div id="demo-banner" class="demo-banner" hidden role="status">
+        <div>
+          <strong>Modo demonstração</strong
+          ><span>Dados fictícios desta sessão · Seus registros estão preservados</span>
+        </div>
+        <button type="button" class="text-button" data-action="demo-stop">
+          Sair da demonstração
+        </button>
+      </div>
+      <main id="main" tabindex="-1"><div class="loading">Carregando sua operação…</div></main>
+      <footer class="main-footer">
+        Brasa / Gestão da hamburgueria <span>R$ · Real brasileiro</span>
+      </footer>
+    </div>
+    <dialog id="dialog"><div id="dialog-content"></div></dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+BRASA — INSTALAÇÃO NO WINDOWS
+Versão 1.3.0
+
+Arquivo: Brasa-Instalador-1.3.0-x64.exe
+Requisito: Windows de 64 bits.
+
+1. Execute o instalador e siga as etapas.
+2. Abra Brasa Protótipo pelo atalho da área de trabalho ou pelo menu Iniciar.
+3. Para encerrar o programa e o servidor local, feche a janela pelo X.
+
+O instalador inclui o necessário para usar o aplicativo.
+Não exige Node.js nem terminal. No GitHub, o instalador é distribuído
+separadamente do código-fonte, na seção Releases.
+
+PRIMEIRO USO
+Configure os dados da hamburgueria e as taxas dos canais em Configurações.
+Cadastre ingredientes e compras, monte as fichas técnicas e confira a
+precificação. Em Pedidos, registre e acompanhe o preparo e a entrega.
+Vendas reúne os pedidos concluídos e cancelados. Lance as despesas para
+completar o cálculo do resultado mensal.
+
+Os pedidos e as taxas são cadastrados manualmente. O aplicativo não recebe
+pedidos de plataformas automaticamente, não processa pagamentos e não
+emite notas fiscais. O README apresenta o tutorial de cada funcionalidade.
+
+DEMONSTRAÇÃO
+Entrar na demonstração abre uma base temporária com dados fictícios,
+sem alterar os registros da operação. Sair da demonstração retorna à base
+normal. Fechar o aplicativo descarta os dados temporários da demonstração.
+
+BACKUP E OUTROS COMPUTADORES
+Em Configurações, Baixar backup JSON exporta os dados do modo ativo.
+Saia da demonstração antes de salvar os registros reais.
+Restaurar backup valida o arquivo e substitui a base do modo ativo.
+
+Cada computador e usuário tem sua própria base local, sem sincronização.
+Os registros não acompanham o instalador. Para transferi-los, exporte um
+backup na origem e restaure no destino. Mantenha esses arquivos privados,
+pois podem conter dados de clientes.
+
+Uma atualização pelo instalador preserva os dados locais. Exporte um backup
+antes de atualizar. Use Arquivo → Abrir pasta dos dados para localizar a base.
+
+DESENVOLVIMENTO
+O código-fonte exige Node.js 24 ou superior.
+Na pasta do package.json:
+
+npm ci          Instala as dependências.
+npm start       Abre a janela do aplicativo.
+npm run verify  Verifica código, formatação e testes.
+npm run build   Gera o instalador na pasta Instalador.
+
+Esses comandos são necessários apenas para trabalhar com o código-fonte.
+
